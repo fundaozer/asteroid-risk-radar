@@ -3,7 +3,6 @@ import os
 import pandas as pd
 
 def clean_asteroid_data(input_file="data/raw/nasa_neo_raw.json"):
-    # Load raw data
     if not os.path.exists(input_file):
         print(f"Error: {input_file} not found!")
         return None
@@ -12,8 +11,6 @@ def clean_asteroid_data(input_file="data/raw/nasa_neo_raw.json"):
         raw_data = json.load(f)
 
     rows = []
-
-    # Flatten JSON structure
     for date, asteroids in raw_data.items():
         for asteroid in asteroids:
             row = {
@@ -29,19 +26,29 @@ def clean_asteroid_data(input_file="data/raw/nasa_neo_raw.json"):
             rows.append(row)
 
     df = pd.DataFrame(rows)
-    df["avg_diameter_km"] = (df["min_diameter_km"] + df["max_diameter_km"]) / 2
+
+   
+    print("\n--- Raw Data Overview ---")
+    print(df.info())
+    print("\nMissing values before cleaning:\n", df.isnull().sum())
+
+    df['date'] = pd.to_datetime(df['date']) 
+    df["avg_diameter_km"] = (df["min_diameter_km"] + df["max_diameter_km"]) /2
+    df = df.drop_duplicates()
+
+    
+    print("\n--- Cleaning Complete ---")
+    print(f"Final shape: {df.shape}")
+    
     return df
 
-def cleaned_data(df, filename="asteroids_cleaned.csv"):
+def save_cleaned_data(df, filename="asteroids_cleaned.csv"):
     os.makedirs("data/processed", exist_ok=True)
     output_path = os.path.join("data/processed", filename)
     df.to_csv(output_path, index=False)
     print(f"\nSuccess! Cleaned data saved to: {output_path}")
-    print(f"Total asteroids processed: {len(df)}")
 
 if __name__ == "__main__":
-    print("--- Starting Data Cleaning ---")
     cleaned_df = clean_asteroid_data()
-    
     if cleaned_df is not None:
-        cleaned_data(cleaned_df)
+        save_cleaned_data(cleaned_df)
