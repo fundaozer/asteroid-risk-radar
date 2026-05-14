@@ -16,12 +16,13 @@ def clean_asteroid_data(input_file="data/raw/nasa_neo_raw.json"):
             row = {
                 "id": asteroid["id"],
                 "name": asteroid["name"],
-                "date": date,
-                "min_diameter_km": asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_min"],
-                "max_diameter_km": asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_max"],
-                "is_hazardous": asteroid["is_potentially_hazardous_asteroid"],
-                "velocity_km_s": float(asteroid["close_approach_data"][0]["relative_velocity"]["kilometers_per_second"]),
-                "miss_distance_km": float(asteroid["close_approach_data"][0]["miss_distance"]["kilometers"])
+                "estimated_diameter_min": asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_min"],
+                "estimated_diameter_max": asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_max"],
+                "is_potentially_hazardous_asteroid": asteroid["is_potentially_hazardous_asteroid"],
+                "close_approach_date": asteroid["close_approach_data"][0]["close_approach_date"],
+                "relative_velocity_km_s": float(asteroid["close_approach_data"][0]["relative_velocity"]["kilometers_per_second"]),
+                "miss_distance_km": float(asteroid["close_approach_data"][0]["miss_distance"]["kilometers"]),
+                "orbiting_body": asteroid["close_approach_data"][0]["orbiting_body"],
             }
             rows.append(row)
 
@@ -32,9 +33,11 @@ def clean_asteroid_data(input_file="data/raw/nasa_neo_raw.json"):
     print(df.info())
     print("\nMissing values before cleaning:\n", df.isnull().sum())
 
-    df['date'] = pd.to_datetime(df['date']) 
-    df["avg_diameter_km"] = (df["min_diameter_km"] + df["max_diameter_km"]) /2
-    df = df.drop_duplicates()
+  # average diameter
+    df["average_diameter"] = (df["estimated_diameter_min"] + df["estimated_diameter_max"]) / 2
+
+    df["close_approach_date"] = pd.to_datetime(df["close_approach_date"])
+    df = df.drop_duplicates(subset="id")
 
     
     print("\n--- Cleaning Complete ---")
