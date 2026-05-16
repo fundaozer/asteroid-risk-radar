@@ -1,0 +1,34 @@
+=======================================================
+         ASTEROID RISK RADAR — SUMMARY REPORT
+         Generated: 2026-05-16 12:52
+=======================================================
+
+GENERAL STATISTICS
+-------------------------------------------------------
+  Total asteroids analysed   : 1442
+  Potentially hazardous      : 154 (10.7%)
+  Average approach distance  :      38,000,689 km
+  Average relative velocity  :      14.00 km/s
+
+RISK LEVEL DISTRIBUTION
+-------------------------------------------------------
+  Low          839  ███████████████████████
+  Medium       601  ████████████████
+  High           2  
+  Critical       0  
+
+NOTABLE ASTEROIDS
+-------------------------------------------------------
+  Highest risk score : 488789 (2004 XK50)
+                       Score 0.5128  |  Level: High
+  Closest approach   : (2025 US6)
+                       381,125 km  |  Date: 2025-09-03
+  Largest diameter   : 433 Eros (A898 PA)
+                       35.9371 km avg diameter
+
+TIME ANALYSIS
+-------------------------------------------------------
+  Busiest month      : January
+  Date range         : 2025-01-01 → 2025-12-31
+
+=======================================================

@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 .env 
 .vscode
 data/
+=======
+.env
+data/
+__pycache__/
+*.pyc
+.vscode/
+>>>>>>> develop
